@@ -7,5 +7,5 @@ boaz(동아리) project
 
 ## 추천시스템
 ### 관련강의 수강
-- [coursera](https://www.coursera.org/learn/machine-learning/lecture/uG59z/content-based-recommendations) : 정리 link
+- [coursera](https://www.coursera.org/learn/machine-learning/lecture/uG59z/content-based-recommendations) : 정리 [link](https://github.com/miniii222/Coursera/tree/master/Machine_Learning_Andrew_Ng/Recommender%20System)
 
