@@ -16,11 +16,11 @@ boaz(동아리) project
 - [udemy](https://www.udemy.com/building-recommender-systems-with-machine-learning-and-ai/learn/v4/content)
 - 논문
 
-제목 | 저자 | link | 정리 link
-----|----|----|----
-Factorization Machines|Steffen Rendle|[link](https://www.csie.ntu.edu.tw/~b97053/paper/Rendle2010FM.pdf)|
-Latent Relational Metric Learning via Memory-based Attention for Collaborative Ranking|Yi Tay, Luu Anh tuan, Siu Cheung Hui|[link](https://arxiv.org/pdf/1707.05176.pdf)
-Sequential Recommender System based on Hierarchical Attention Network|Haochao Ying, Fuzhen Zhuang, Yanchi Liu...|[link](https://www.ijcai.org/proceedings/2018/0546.pdf)|
-Wide & Deep Learning for Recommender Systems|Heng-Tze Cheng, Levent Koc, Jeremiah Harmsen...|[link](https://arxiv.org/pdf/1606.07792.pdf)|
+제목 | 저자 | 정리 link
+----|----|----
+Factorization Machines [(link)](https://www.csie.ntu.edu.tw/~b97053/paper/Rendle2010FM.pdf)|Steffen Rendle|
+Latent Relational Metric Learning via Memory-based Attention for Collaborative Ranking [(link)](https://arxiv.org/pdf/1707.05176.pdf)|Yi Tay, Luu Anh tuan, Siu Cheung Hui|
+Sequential Recommender System based on Hierarchical Attention Network [(link)](https://www.ijcai.org/proceedings/2018/0546.pdf)|Haochao Ying, Fuzhen Zhuang, Yanchi Liu...|
+Wide & Deep Learning for Recommender Systems [(link)](https://arxiv.org/pdf/1606.07792.pdf)|Heng-Tze Cheng, Levent Koc, Jeremiah Harmsen...|
 
 
