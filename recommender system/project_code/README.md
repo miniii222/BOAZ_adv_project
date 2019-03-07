@@ -10,5 +10,7 @@
 - y 파악하기
 - session id, user id 파악하기
 - 강의 5,6,7 들어오기
-- 
+- session_based rs 조사하기
+
+
   
