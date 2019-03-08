@@ -11,7 +11,7 @@
     - session id, user id 파악하기
     - 강의 5,6,7 들어오기
     - session_based rs 조사하기
-
+- [2019-03-08] : EDA
 
 # RecSys 2019
 ## 데이터 개요
