@@ -20,6 +20,12 @@
 #### 데이터 개수
 - train data : user ID 개수 - 730803, session ID 개수 : 910683
 - test data : user ID 개수 - 250852, session ID 개수 : 291381
+- train + test : user ID 개수 - 948041, session ID 개수 : 1202048
+- train에만 있는 user_id 개수 697189 / test에만 있는 user_id 개수 217238
+- train, test 모두 포함하는 user_id 개수 33614
+- train에만 있는 session_id 개수 910667 / test에만 있는 session_id 개수 291365
+- train, test 모두 포함하는 session_id 개수 16
+
 
 ## 알게 된 것
 - 다른 날이어도 같은 session_id가 있을 수 있다.
