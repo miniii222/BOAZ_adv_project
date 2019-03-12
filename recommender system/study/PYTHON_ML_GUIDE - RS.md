@@ -48,4 +48,6 @@
       2. P와 Q값을 곱해 예측 R행렬을 계산하고 예측R 행렬과 실제 R행렬에 해당하는 오류 값 계산.
       3. 오류 값을 최소화할 수 있도록 P와Q행렬 업데이트
       4. 만족할 만한 값을 가질 때까지 2,3 반복
-      구현 code : 
+      구현 code : [link](https://github.com/miniii222/BOAZ_adv_project/blob/master/recommender%20system/study/PYTHON_ML_GUIDE%20-%20SVD_SGD.ipynb)
+      
+      
