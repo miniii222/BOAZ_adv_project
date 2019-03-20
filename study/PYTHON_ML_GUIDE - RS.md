@@ -52,7 +52,8 @@
      
      
 ### Example code
-- Content based Rs using TMDB data - [link](https://github.com/miniii222/BOAZ_adv_project/blob/master/recommender%20system/study/Content_based_ex_TMDB.ipynb)
+- Content based Rs using TMDB data - [link](https://github.com/miniii222/BOAZ_adv_project/blob/master/study/Content_based_ex_TMDB.ipynb)
+- Collaborative Filtering itembased - [link](https://github.com/miniii222/BOAZ_adv_project/blob/master/study/Collaborative_Filtering_ex_itembased.ipynb)
      
       
       
