@@ -4,8 +4,8 @@
 ## 데이터 설명
 - trivago data
 
-## 알게 된 것
+## Model
 
-- 킥킥
+- item_similarity_from_metadata.ipynb
 
   
