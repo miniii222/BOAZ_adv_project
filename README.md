@@ -18,6 +18,9 @@
   #### - 회의내용
   - 샘플코드 공부할 것.
   - 데이터 공부, 모델 공부
+- [2019-03-20] : last_date & click 추가해서 submission 점수x
+- [2019-03-21] : only last_date submission 점수x
+
   
 # RecSys 2019
 ## 데이터 개요
