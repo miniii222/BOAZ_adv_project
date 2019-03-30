@@ -20,12 +20,40 @@ os.chdir('C:/Users/HS/Documents/GitHub/BOAZ_adv_project/project_code/EDA')
 ##%% (2) read dataset
 # read dataset
 path_data = 'C:/Users/HS/Documents/GitHub/Recommendation system/data'
-train = pd.read_csv(path_data + '/train.csv')
-#test = pd.read_csv(path_data + '/test.csv')
-item_metadata = pd.read_csv(path_data + '/item_metadata.csv')
-df_item_list =  pd.read_csv(path_data + '/df_item_list.csv')
+train = pd.read_csv(path_data + '/train_v3.csv')
+test = pd.read_csv(path_data + '/test_v3.csv')
+item_metadata = pd.read_csv(path_data + '/item_metadata_v2.csv')
+df_item_list =  pd.read_csv(path_data + '/df_item_list_v2.csv')
 
 ##%% Def
+
+# 선 전처리 필요
+
+def get_new_train(df):
+    
+    strange_index = [3593077, 12178010, 15149208, 15199625]
+    unknown_index = list(df.loc[df['action_type'] == 'interaction item info'].loc[df['reference'] == 'unknown'].index)
+    
+    for i in strange_index:
+        df.iloc[i, 4] = 'search for poi'
+        # print(df.ix[i, 4])
+    for i in unknown_index:
+        df.iloc[i, 5] = '9'
+    
+    return df
+
+
+def get_new_test(df):
+    
+    unknown_index = list(df.loc[df['action_type'] == 'interaction item info'].loc[df['reference'] == 'unknown'].index)
+    
+    for i in unknown_index:
+        df.iloc[i, 5] = '9'
+    
+    return df
+
+
+
 # def string_to array
 def string_to_array(s):
     """Convert pipe separated string to array."""
@@ -39,7 +67,7 @@ def string_to_array(s):
     return out
 
 
-def explode(df_in, col_expl):
+def explode(df_in, col_expl : str):
     """Explode column col_expl of array type into multiple rows."""
 
     df = df_in.copy()
@@ -113,9 +141,10 @@ def get_popularity(df, action : str):
 def merge_popularity(df):
     '''데이터프레임에서 아이템별로 구했던 action type 횟수를 merge 한다'''
     
-    action_list = [                
-            #'interaction item info', 
-            'interaction item image', #'interaction item rating',
+    action_list = [         
+            # action_type 의 reference 가 item_id 인 행동만 뽑는다.
+            'interaction item info', 
+            'interaction item image', 'interaction item rating',
             'interaction item deals', 'search for item',
             'clickout item'
             ]
@@ -131,77 +160,69 @@ def merge_popularity(df):
     return df_item_actions
 
 
+########################
 
+def get_impression_price(df):
 
-
-####
-
-
-# item list 구하기
-df_target = train.loc[train["action_type"] == "clickout item"][['impressions']]
-df_ex = explode(df_target, 'impressions')
-df_ex
-
-df_item_list = get_domain(df_ex, 'impressions').rename(columns = {'impressions' : 'item_id'})
-#df_item_list.to_csv('{0}/data/df_item_list.csv'.format(path_data_out), index = False)
-
-
-
-
-# item price 구하는 함수
-df_item_list =  pd.read_csv(path_data + '/df_item_list.csv')
-df_item_list.head()
-
-
-
-clickout_only = train.loc[train['action_type'] == 'clickout item']
-clickout_only = clickout_only.loc[:, ['impressions', 'prices']]
-clickout_only.head()
-
-
-impressions_split = clickout_only.impressions.str.split('|')
-prices_split = clickout_only.prices.str.split('|')
-
-
-
-# item_metadata 에 있는 호텔 리스트의 가격정보 담기
-hotel_contain_dic = {}
-
-for i in df_item_list.index:
+    target_item = df.loc[df["action_type"] == "clickout item"][['impressions']].rename(columns = {'impressions' : 'item_id'})
+    target_price = df.loc[df["action_type"] == "clickout item"][['prices']].rename(columns = {'prices' : 'price'})
     
-    hotel_contain_dic[df_item_list.loc[i]['item_id']] = []
-
-
-
-# 구매정보가 있지만 item_metadata에 없는 호텔리스트
-hotel_not_contain_list = []
-
-# metadataset 안에 있는 것과 매핑
-for i in range(0, len(impressions_split)):
+    target_item = explode(target_item, 'item_id')
+    target_price = explode(target_price, 'price')
     
-    for x, y in zip(impressions_split.iloc[i], prices_split.iloc[i]):
+    df_out = pd.concat([target_item, target_price], axis = 1)
+    
+    return df_out
+
+
+df_item_price = get_impression_price(train)
+
+
+#def get_dic_item_price(df):
+
+def get_dic_item_forList(df, col_name : str, index_name = 'item_id' ):
+
+    sample_ = df.item_id.value_counts()
+    sample_.name = col_name
+    sample_.index.name = index_name
+
+    dic_item = dict()
+
+    for i in sample_.index:
+        dic_item[i] = list()
+    
+    for i in df.index:
+        x = df.iloc[i, 0]
+        y = df.iloc[i, 1]
+
+        dic_item[x].append(y)
         
-        try:
-            hotel_contain_dic[int(x)].append(int(y))
-            break
-            
-        except KeyError:
-            print('{0} is not in our keys'.format(x))
-            hotel_not_contain_list.append(int(x))
+    return dic_item
 
 
-hotel_contain_dic.items()
+def get_dic_item_forSet(df, col_name : str, index_name = 'item_id' ):
 
-# 6326, 6312 ?? 
+    sample_ = df.item_id.value_counts()
+    sample_.name = col_name
+    sample_.index.name = index_name
+
+    dic_item = dict()
+
+    for i in sample_.index:
+        dic_item[i] = set()
+    
+    for i in df.index:
+        x = df.iloc[i, 0]
+        y = df.iloc[i, 1]
+
+        dic_item[x].add(y)
+        
+    return dic_item
 
 
-for x, y in hotel_contain_dic.items():
-    print(x, y)
 
 
-# price 계산
-
-
+##########################
 
 
 
@@ -236,7 +257,12 @@ df_item_
 
 
 
+###
 
+
+
+
+get_domain(train, 'action_type')
 
 
 
