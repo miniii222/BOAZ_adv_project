@@ -21,9 +21,9 @@ os.chdir('C:/Users/HS/Documents/GitHub/BOAZ_adv_project/project_code/EDA')
 # read dataset
 path_data = 'C:/Users/HS/Documents/GitHub/Recommendation system/data'
 train = pd.read_csv(path_data + '/train_v3.csv')
-test = pd.read_csv(path_data + '/test_v3.csv')
-item_metadata = pd.read_csv(path_data + '/item_metadata_v2.csv')
-df_item_list =  pd.read_csv(path_data + '/df_item_list_v2.csv')
+#test = pd.read_csv(path_data + '/test_v3.csv')
+#item_metadata = pd.read_csv(path_data + '/item_metadata_v2.csv')
+#df_item_list =  pd.read_csv(path_data + '/df_item_list_v2.csv')
 
 ##%% Def
 
@@ -195,16 +195,16 @@ def get_dic_item_forList(df, col_name : str, index_name = 'item_id' ):
         x = df.iloc[i, 0]
         y = df.iloc[i, 1]
 
-        dic_item[x].append(y)
+        dic_item[x].append(int(y))
         
     return dic_item
 
 
-def get_dic_item_forSet(df, col_name : str, index_name = 'item_id' ):
+def get_dic_item_forSet(df):#, col_name : str, index_name = 'item_id' ):
 
     sample_ = df.item_id.value_counts()
-    sample_.name = col_name
-    sample_.index.name = index_name
+    #sample_.name = col_name
+    #sample_.index.name = index_name
 
     dic_item = dict()
 
@@ -220,34 +220,89 @@ def get_dic_item_forSet(df, col_name : str, index_name = 'item_id' ):
     return dic_item
 
 
-
+dic_item = get_dic_item_forList(df_item_price)
 
 ##########################
 
+def get_aggPrice(dic_item : dict):
 
-
-
-
-
-
-
-
-#set 으로 확인
+    dic_agg_price = dict()
+    
+    item_id_list = list()
+    mean_price_list = list()
+    min_price_list = list()
+    max_price_list = list()
+    var_price_list = list()
+    std_price_list = list()
+    n_impressions_list = list()
+    
+    for i in dic_item:
+        
+        # 계산하기
+        prices = np.array(dic_item.get(i))
+        mean_price = float(np.mean(prices))
+        n_impressions = len(prices)
+        
+        try:
+            min_price = np.min(prices)
+            max_price = np.max(prices)
+            var_price = np.var(prices)
+            std_price = np.std(prices)
             
-            
+        except ValueError:
+            min_price = np.nan
+            max_price = np.nan
+            var_price = np.nan
+            std_price = np.nan
+            pass
+    
+        
+        # list에 담기
+        item_id_list.append(i)
+        mean_price_list.append(mean_price)
+        min_price_list.append(min_price)
+        max_price_list.append(max_price)
+        var_price_list.append(var_price)
+        std_price_list.append(std_price)
+        n_impressions_list.append(n_impressions)
+        
+    
+    # 딕셔너리 만들기
+    dic_agg_price['item_id'] = item_id_list
+    dic_agg_price['mean_price'] = mean_price_list
+    dic_agg_price['min_price'] = min_price_list
+    dic_agg_price['max_price'] = max_price_list
+    dic_agg_price['var_price'] = var_price_list
+    dic_agg_price['std_price'] = std_price_list
+    dic_agg_price['n_impressions'] = n_impressions_list
+    
+    # 데이터프레임
+    df_item_aggPrice = pd.DataFrame(dic_agg_price)
+
+    return df_item_aggPrice
+
+
+#######################
+
+
 ####
+####
+# filter score 구하는 함수
+
+
 
 # item rating, star 구하는 함수
-# filter score 구하는 함수
 # poi one hot encoding    
 
 
-
+#######################
 ### 실행문
 df_location = get_domain(train, 'city')
 df_platform = get_domain(train, 'platform')
 
-df_location = get_location(df_location)
+df_location = get_location(train)
+df_location
+
 
 df_item_action = merge_popularity(train)
 df_item_action
@@ -255,28 +310,71 @@ df_item_action
 df_item_ = get_domain(df_item_action, 'item_id')
 df_item_
 
+df_itme_aggPrice = get_aggPrice(dic_item)
+
+df_itme_aggPrice.shape
+df_itme_aggPrice.columns
+df_itme_aggPrice.head()
+df_itme_aggPrice.tail()
+
+df_item_action.columns
+df_item_v1 = pd.merge(df_itme_aggPrice, df_item_action, on = 'item_id', how = 'outer')
+print(df_item_v1.shape)
+#print(df_item_v1.dtypes)
+print(df_item_v1.columns)
+print(df_item_v1.head())
+print(df_item_v1.tail())
 
 
+
+df_item_all = pd.merge(item_metadata, df_item_v1,  on = 'item_id', how = 'outer')
+
+print(df_item_all.columns)
+print('df_item_all:', df_item_all.shape)
+print('item_metadata:', item_metadata.shape)
+df_item_all.shape[0] - item_metadata.shape[0]
 ###
 
 
+df1 = train.loc[train['action_type'] == 'search for poi'][['city', 'reference']]
+
+df1.columns = ['item_id', 'poi']
+df1.columns
+df1.shape
+df1.head()
+
+get_dic_item_forSet(df1)
+
+df1.item_id.value_counts() #4258
 
 
-get_domain(train, 'action_type')
+sample_ = df1.item_id.value_counts()
+
+dic_item = dict()
+
+for i in sample_.index:
+    dic_item[i] = set()
 
 
+for i in df1.index:
+    x = df1.iloc[i, 0]
+    y = df1.iloc[i, 1]
 
+    dic_item[x].add(y)
+    
+train.groupby(['reference', 'city']).size()
 
 ### csv 로 저장문 
 
-path_data_out = 'C:/Users/HS/Documents/GitHub/Recommendation system'
+path_data_out = 'C:/Users/HS/Documents/GitHub/Recommendation system/data'
 
-DataList = [df_location, df_platform]
-DataList_Name = ['df_location', 'df_platform']
+DataList = [df_item_v1]
+DataList_Name = ['df_item_v1']
 for i, j in zip(DataList, DataList_Name):
     i.to_csv('{0}/{1}.csv'.format(path_data_out, str(j)), index = False)
 
 
 
-
-
+df_item_v1.to_csv(path_data_out + '/df_item_v1.csv', index = False)
+df_item_all.to_csv(path_data_out + '/df_item_v2.csv', index = False) 
+df_location.to_csv(path_data_out + '/df_location.csv', index = False) 
