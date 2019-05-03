@@ -21,7 +21,7 @@ os.chdir('C:/Users/HS/Documents/GitHub/BOAZ_adv_project/project_code/EDA')
 # read dataset
 path_data = 'C:/Users/HS/Documents/GitHub/Recommendation system/data'
 train = pd.read_csv(path_data + '/train_v3.csv')
-#test = pd.read_csv(path_data + '/test_v3.csv')
+test = pd.read_csv(path_data + '/test_v3.csv')
 #item_metadata = pd.read_csv(path_data + '/item_metadata_v2.csv')
 #df_item_list =  pd.read_csv(path_data + '/df_item_list_v2.csv')
 
@@ -293,6 +293,11 @@ def get_aggPrice(dic_item : dict):
 
 # item rating, star 구하는 함수
 # poi one hot encoding    
+
+########
+    
+df_item_action = merge_popularity(test)
+df_item_action
 
 
 #######################
