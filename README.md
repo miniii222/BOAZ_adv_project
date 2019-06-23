@@ -55,3 +55,7 @@ Latent Relational Metric Learning via Memory-based Attention for Collaborative R
 Sequential Recommender System based on Hierarchical Attention Network [(link)](https://www.ijcai.org/proceedings/2018/0546.pdf)|Haochao Ying, Fuzhen Zhuang, Yanchi Liu...|
 Wide & Deep Learning for Recommender Systems [(link)](https://arxiv.org/pdf/1606.07792.pdf)|Heng-Tze Cheng, Levent Koc, Jeremiah Harmsen...|
 
+
+[2019-06-22] 컨퍼런스 발표 회의
+[2019-06-23] 
+
