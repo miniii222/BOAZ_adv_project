@@ -58,4 +58,5 @@ Wide & Deep Learning for Recommender Systems [(link)](https://arxiv.org/pdf/1606
 
 [2019-06-22] 컨퍼런스 발표 회의
 [2019-06-23] 
+[2019-06-24] 리허설에 할 것 준비. item 별 dwelling time
 
