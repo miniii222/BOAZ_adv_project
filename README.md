@@ -61,3 +61,6 @@ Wide & Deep Learning for Recommender Systems [(link)](https://arxiv.org/pdf/1606
 [2019-06-24] 리허설에 할 것 준비. item 별 dwelling time
 [2019-06-27] 컨퍼런스 리허설
 [2019-07-04] test2 data 완성!
+[2019-07-13] 발표 끝!!!!!!!!!
+
+끝났다아아아아!!!!!!!!! 얘들아 다들 너무 고생많았고, 수고했어!!!!!
